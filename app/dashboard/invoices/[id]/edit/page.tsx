@@ -1,16 +1,46 @@
-// /app/dashboard/invoices/[id]/edit/page.tsx
+// // /app/dashboard/invoices/[id]/edit/page.tsx
+// import Form from '@/app/ui/invoices/edit-form';
+// import Breadcrumbs from '@/app/ui/invoices/breadcrumbs';
+// import { fetchInvoiceById, fetchCustomers } from '@/app/lib/data';
+
+// export default async function Page({ params }: { params: { id: string } }) {
+//   const id = params.id;
+
+//   const [invoice, customers] = await Promise.all([
+//     fetchInvoiceById(id),
+//     fetchCustomers(),
+//   ]);
+
+//   return (
+//     <main>
+//       <Breadcrumbs
+//         breadcrumbs={[
+//           { label: 'Invoices', href: '/dashboard/invoices' },
+//           {
+//             label: 'Edit Invoice',
+//             href: `/dashboard/invoices/${id}/edit`,
+//             active: true,
+//           },
+//         ]}
+//       />
+//       <Form invoice={invoice} customers={customers} />
+//     </main>
+//   );
+// }
+
+
 import Form from '@/app/ui/invoices/edit-form';
 import Breadcrumbs from '@/app/ui/invoices/breadcrumbs';
 import { fetchInvoiceById, fetchCustomers } from '@/app/lib/data';
-
-export default async function Page({ params }: { params: { id: string } }) {
-  const id = params.id;
-
+ 
+export default async function Page({ params, searchParams }: { params: Promise<{ id: string }>, searchParams?: Promise<any> }) {
+  const resolvedParams = await params;
+  const id = resolvedParams.id;
   const [invoice, customers] = await Promise.all([
     fetchInvoiceById(id),
     fetchCustomers(),
   ]);
-
+  
   return (
     <main>
       <Breadcrumbs
@@ -18,18 +48,15 @@ export default async function Page({ params }: { params: { id: string } }) {
           { label: 'Invoices', href: '/dashboard/invoices' },
           {
             label: 'Edit Invoice',
-            href: `/dashboard/invoices/${id}/edit`,
+            href: "/dashboard/invoices/${id}/edit",
             active: true,
           },
         ]}
       />
       <Form invoice={invoice} customers={customers} />
-    </main>
-  );
+    </main>
+  )
 }
-
-
-
 
 
 
